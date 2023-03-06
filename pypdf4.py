@@ -1,9 +1,13 @@
 import PyPDF4
 import re
 
+# Nome do documento de onde virão os dados a serem extraídos
+
+filename = "conta3.pdf"
+
 # Abertura do documento
 
-with open("conta3.pdf", "rb") as conta:
+with open(filename, "rb") as conta:
 
     # Leitura do arquivo pela biblioteca
 
