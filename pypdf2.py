@@ -1,6 +1,7 @@
 import PyPDF2
+import re
 
-with open("conta2.pdf", "rb") as conta:
+with open("conta3.pdf", "rb") as conta:
     pdf = PyPDF2.PdfReader(conta)
 
     page1 = pdf.pages[0]
@@ -9,9 +10,11 @@ with open("conta2.pdf", "rb") as conta:
 
     lines = text.split("\n")
 
-    for line in lines:
-        if "TOTAL: " in line:
-            total = line.split()[2].replace("-", "")
-            break
+    report = {
+        "valor": lines[7].split()[0],
+        "data_de_vencimento": lines[5].split()[0],
+        "codigo_de_barras": re.sub(r'\D', '', lines[-8]),
+        "tipo_do_documento": lines[-7].strip()
+    }
 
-    print(f"R$ " + total)
+    print(report)

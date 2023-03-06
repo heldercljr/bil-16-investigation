@@ -1,17 +1,20 @@
 import PyPDF4
+import re
 
-with open("conta.pdf", mode="rb") as conta:
+with open("conta4.pdf", "rb") as conta:
     pdf = PyPDF4.PdfFileReader(conta)
-
+    
     page1 = pdf.getPage(0)
 
     text = page1.extractText()
 
-    print(text)
-
     lines = text.split("\n")
 
-    for line in lines:
-        if "R$" in line:
-            total = line.split(":")[-1].strip()
-            break
+    report = {
+        "valor": lines[12],
+        "data_de_vencimento": lines[9],
+        "codigo_de_barras": re.sub(r'\D', '', lines[-17]) + lines[-16],
+        "tipo_do_documento": lines[-14].replace("!", "ã")
+    }
+
+    print(report)
