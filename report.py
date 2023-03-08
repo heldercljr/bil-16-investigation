@@ -1,5 +1,7 @@
 import json
 
+# Classe responsável por definir e gerar os arquivos JSON dos relatórios
+
 class Report:
 
     def __init__(self, cnpj, valor, data_de_vencimento, codigo_de_barras, tipo_do_documento, composicao_do_documento):
@@ -10,5 +12,8 @@ class Report:
         self.tipo_do_documento = tipo_do_documento
         self.composicao_do_documento = composicao_do_documento
 
-    def __str__(self):
-        return json.dumps(self, ensure_ascii=False).encode("utf-8")
+    def to_json(self, filename="report.json"):
+
+        with open(filename, "wb") as json_file:
+
+        	json_file.write(json.dumps(vars(self), ensure_ascii=False).encode("utf-8"))
