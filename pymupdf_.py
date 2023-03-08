@@ -1,5 +1,7 @@
 import fitz
 
+from report import Report
+
 # Nome do documento de onde virão os dados a serem extraídos
 
 filename = "conta3.pdf"
@@ -8,23 +10,25 @@ filename = "conta3.pdf"
 
 with fitz.open(filename) as conta:
 
-	# Extração do texto da primeira página
+    # Extração do texto da primeira página
 
-	text = conta[0].get_text()
+    text = conta[0].get_text()
 
-	# Separação do texto em linhas
+# Separação do texto em linhas
 
-	lines = text.split("\n")
+lines = text.split("\n")
 
-	# Dicionário responsável pela exportação dos dados
+# Objeto responsável pela exportação dos dados
 
-	report = {
-		"valor": lines[12],
-		"data_de_vencimento": lines[9],
-		"codigo_de_barras": "".join(lines[-20:-16:1]).replace(" ", ""),
-		"tipo_do_documento": lines[-15]
-	}
+report = Report(
+    lines[2],
+    lines[12],
+    lines[9],
+    "".join(lines[-20:-16:1]).replace(" ", ""),
+    lines[-15],
+    lines[24:52:1]
+)
 
-	# Demonstração dos dados
+# Exportação do relatório para um arquivo JSON
 
-	print(report)
+report.to_json()
